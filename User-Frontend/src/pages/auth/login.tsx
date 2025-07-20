@@ -1,6 +1,6 @@
 import { useState } from "react";
-import Footer from "../components/Footer";
-import CustomInput from "../components/CustomInput";
+import Footer from "../../components/Footer";
+import CustomInput from "../../components/CustomInput";
 import { Link } from "react-router-dom";
 
 export default function Login() {
@@ -37,7 +37,7 @@ export default function Login() {
             <div className="flex flex-col w-full">
               <div className="w-full flex flex-row justify-between items-center">
                 <label htmlFor="password">Password</label>
-                <Link className="text-primary text-sm" to={""}>
+                <Link className="text-primary text-sm" to={"/forgot-password"}>
                   Forgot Password?
                 </Link>
               </div>

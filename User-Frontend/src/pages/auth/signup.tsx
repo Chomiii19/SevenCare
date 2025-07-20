@@ -1,6 +1,6 @@
 import { useState } from "react";
-import Footer from "../components/Footer";
-import CustomInput from "../components/CustomInput";
+import Footer from "../../components/Footer";
+import CustomInput from "../../components/CustomInput";
 import { Link } from "react-router-dom";
 
 export default function Signup() {
