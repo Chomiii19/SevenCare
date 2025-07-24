@@ -1,12 +1,19 @@
 import { useState } from "react";
 import Footer from "../../components/Footer";
 import CustomInput from "../../components/CustomInput";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Login() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    navigate("/home");
+  };
 
   return (
     <main className="flex flex-col w-full h-screen bg-zinc-100">
@@ -22,7 +29,10 @@ export default function Login() {
             </h3>
           </header>
 
-          <form className="flex flex-col justify-center items-center   lg:w-1/4 w-full gap-2">
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col justify-center items-center   lg:w-1/4 w-full gap-2"
+          >
             <div className="flex flex-col w-full">
               <label htmlFor="email">Email</label>
               <CustomInput

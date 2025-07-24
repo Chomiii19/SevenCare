@@ -6,3 +6,15 @@ export const whyChooseUs = [
   "Cutting Edge Technology",
   "Patient Centric Approach",
 ];
+
+export const medicalDepartments = [
+  { name: "consultation", label: "Consultation" },
+  { name: "vaccination", label: "Vaccination" },
+  { name: "medicalCertificate", label: "Medical Certificate" },
+  { name: "laboratory", label: "Laboratory" },
+  { name: "holisticCare", label: "Holistic Care" },
+  { name: "circumcision", label: "Circumcision/TULI" },
+  { name: "medicalCheckUp", label: "Medical Check Up" },
+  { name: "prenatalCheckUp", label: "Prenatal Check Up" },
+  { name: "familyPlanning", label: "Family Planning" },
+];

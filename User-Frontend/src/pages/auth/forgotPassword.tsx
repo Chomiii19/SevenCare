@@ -7,6 +7,7 @@ export default function ForgotPassword() {
   const [activeSlide, setActiveSlide] = useState(1);
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
+
   return (
     <main className="flex flex-col w-full h-screen font-roboto bg-zinc-100">
       <div className="flex-1 w-full flex justify-center items-center relative overflow-hidden">
