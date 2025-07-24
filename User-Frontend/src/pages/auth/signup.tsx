@@ -1,16 +1,25 @@
 import { useState } from "react";
 import Footer from "../../components/Footer";
 import CustomInput from "../../components/CustomInput";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Signup() {
+  const navigate = useNavigate();
   const [firstname, setFirstname] = useState("");
   const [surname, setSurname] = useState("");
   const [birthDate, setBirthDate] = useState("");
+  const [gender, setGender] = useState("");
+  const [maritalStatus, setMaritalStatus] = useState("");
   const [address, setAddress] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    navigate("/");
+  };
 
   return (
     <main className="flex flex-col w-full h-screen bg-zinc-100">
@@ -26,9 +35,12 @@ export default function Signup() {
             </h3>
           </header>
 
-          <form className="flex flex-col justify-center items-center   lg:w-1/2 w-full gap-1">
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col justify-center items-center   lg:w-1/2 w-full gap-1"
+          >
             {/* First Row */}
-            <div className="flex flex-row justify-center items-center gap-6 w-full">
+            <section className="flex flex-row justify-center items-center gap-6 w-full">
               {/* First name */}
               <div className="flex flex-col w-full">
                 <label htmlFor="firstname">First Name</label>
@@ -50,10 +62,10 @@ export default function Signup() {
                   stateSetter={setSurname}
                 />
               </div>
-            </div>
+            </section>
 
             {/* Second Row */}
-            <div className="flex flex-row justify-center items-start gap-6 w-full">
+            <section className="flex flex-row justify-center items-start gap-6 w-full">
               {/* Birth Date */}
               <div className="flex flex-col w-full">
                 <label htmlFor="birthDate">Birth Date</label>
@@ -77,10 +89,85 @@ export default function Signup() {
                   stateSetter={setAddress}
                 />
               </div>
-            </div>
+            </section>
 
             {/* Third Row */}
-            <div className="flex flex-row justify-center items-start gap-6 w-full">
+            <section className="flex flex-row justify-center items-start gap-6 w-full">
+              {/* Gender */}
+              <div className="flex flex-col w-full">
+                <p>Gender</p>
+                <div className="flex flex-row gap-3 w-full">
+                  <div className="flex flex-row gap-1 justify-center items-center">
+                    <input
+                      type="radio"
+                      name="gender"
+                      id="male"
+                      value="male"
+                      checked={gender === "male"}
+                      onChange={(e) => setGender(e.target.value)}
+                    />
+                    <label htmlFor="male">Male</label>
+                  </div>
+
+                  <div className="flex flex-row gap-1 justify-center items-center">
+                    <input
+                      type="radio"
+                      name="gender"
+                      id="female"
+                      value="female"
+                      checked={gender === "female"}
+                      onChange={(e) => setGender(e.target.value)}
+                    />
+                    <label htmlFor="female">Female</label>
+                  </div>
+                </div>
+              </div>
+
+              {/* Marital Status */}
+              <div className="flex flex-col w-full">
+                <p>Marital Status</p>
+                <div className="flex flex-row gap-3 w-full">
+                  <div className="flex flex-row gap-1 justify-center items-center">
+                    <input
+                      type="radio"
+                      name="maritalStatus"
+                      id="single"
+                      value="single"
+                      checked={maritalStatus === "single"}
+                      onChange={(e) => setMaritalStatus(e.target.value)}
+                    />
+                    <label htmlFor="single">Single</label>
+                  </div>
+
+                  <div className="flex flex-row gap-1 justify-center items-center">
+                    <input
+                      type="radio"
+                      name="maritalStatus"
+                      id="married"
+                      value="married"
+                      checked={maritalStatus === "married"}
+                      onChange={(e) => setMaritalStatus(e.target.value)}
+                    />
+                    <label htmlFor="married">Married</label>
+                  </div>
+
+                  <div className="flex flex-row gap-1 justify-center items-center">
+                    <input
+                      type="radio"
+                      name="maritalStatus"
+                      id="widowed"
+                      value="widowed"
+                      checked={maritalStatus === "widowed"}
+                      onChange={(e) => setMaritalStatus(e.target.value)}
+                    />
+                    <label htmlFor="widowed">Widowed</label>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* Fourth Row */}
+            <section className="flex flex-row justify-center items-start gap-6 w-full">
               {/* Email */}
               <div className="flex flex-col w-full">
                 <label htmlFor="email">Email</label>
@@ -104,9 +191,10 @@ export default function Signup() {
                   stateSetter={setPhoneNumber}
                 />
               </div>
-            </div>
+            </section>
 
-            <div className="flex flex-col w-full">
+            {/* Password */}
+            <section className="flex flex-col w-full">
               <label htmlFor="password">Password</label>
               <CustomInput
                 type="password"
@@ -115,7 +203,7 @@ export default function Signup() {
                 state={password}
                 stateSetter={setPassword}
               />
-            </div>
+            </section>
 
             <button
               type="submit"

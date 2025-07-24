@@ -15,7 +15,10 @@ export default function ResetPassword() {
   return (
     <main className="flex flex-col w-full h-screen font-roboto bg-zinc-100">
       <div className="flex-1 w-full flex justify-center items-center">
-        <form className="w-1/4 bg-primaryLight/15 rounded-lg flex flex-col  items-center p-7 gap-2">
+        <form
+          onSubmit={handleSubmit}
+          className="w-1/4 bg-primaryLight/15 rounded-lg flex flex-col  items-center p-7 gap-2"
+        >
           <h1 className="font-bold text-lg">New Password</h1>
           <p className="text-[#4C9C48] bg-[#C0F4C7] p-3 text-center">
             Please create a new password that you don't use on any other site.
@@ -28,7 +31,6 @@ export default function ResetPassword() {
           />
           <button
             type="submit"
-            onClick={handleSubmit}
             className="py-2 bg-primary rounded-lg text-zinc-100 cursor-pointer w-full font-bold"
           >
             Change Password
