@@ -36,6 +36,7 @@ const UserSchema = new mongoose.Schema<IUser>({
     type: String,
     required: [true, "Email field is required"],
     minlength: 8,
+    select: false,
   },
 });
 
@@ -46,7 +47,9 @@ UserSchema.pre("save", async function (this: IUser, next: NextFunction) {
   this.password = await bcrypt.hash(this.password, 12);
 });
 
-UserSchema.methods.comparePassword = async function (password: string) {
+UserSchema.methods.comparePassword = async function (
+  password: string,
+): Promise<boolean> {
   return await bcrypt.compare("password", this.password);
 };
 
