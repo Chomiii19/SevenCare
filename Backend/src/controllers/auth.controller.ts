@@ -78,6 +78,8 @@ export const login = catchAsync(
 
     if (!user || !(await user?.comparePassword(password)))
       return next(new AppError("Incorrect user credentials", 400));
+
+    createSendToken(res, user._id, 200);
   },
 );
 
@@ -112,9 +114,46 @@ export const forgotPassword = catchAsync(
 );
 
 export const resetPassword = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {},
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { email, resetCode, newPassword } = req.body;
+
+    if (!email || !resetCode || !newPassword) {
+      return next(new AppError("Missing required fields", 400));
+    }
+
+    const user = await User.findOne({ email });
+    if (!user) return next(new AppError("User not found", 404));
+
+    const codeHash = crypto
+      .createHash("sha256")
+      .update(resetCode)
+      .digest("hex");
+
+    const storedCode = await PasswordResetCode.findOne({
+      userId: user._id,
+      codeHash,
+      expiresAt: { $gt: new Date() },
+    });
+
+    if (!storedCode) return next(new AppError("Invalid or expired code", 400));
+
+    user.password = newPassword;
+    await user.save();
+
+    await PasswordResetCode.deleteMany({ userId: user._id }); // cleanup
+
+    createSendToken(res, user._id, 200);
+  },
 );
 
 export const logout = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {},
+  async (req: Request, res: Response, next: NextFunction) => {
+    res.clearCookie("authToken", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      path: "/",
+    });
+    res.status(200).json({ status: "Success" });
+  },
 );
