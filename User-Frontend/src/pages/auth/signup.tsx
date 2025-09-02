@@ -1,7 +1,9 @@
 import { useState } from "react";
+import axios, { AxiosError } from "axios";
 import Footer from "../../components/Footer";
 import CustomInput from "../../components/CustomInput";
 import { Link, useNavigate } from "react-router-dom";
+import { BACKEND_DOMAIN } from "../../data/data";
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -14,11 +16,49 @@ export default function Signup() {
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    navigate("/");
+    const userData = {
+      firstname,
+      surname,
+      birthDate,
+      gender,
+      maritalStatus,
+      address,
+      email,
+      phoneNumber,
+      password,
+    };
+
+    try {
+      const response = await axios.post(
+        `${BACKEND_DOMAIN}/api/v1/auth/signup`,
+        userData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        },
+      );
+
+      console.log("Signup success:", response.data);
+
+      navigate("/home");
+    } catch (e) {
+      console.log(e);
+      if (axios.isAxiosError(e)) {
+        const err = e as AxiosError<{ message?: string }>;
+        setError(err.response?.data?.message ?? "Signup failed.");
+      } else if (e instanceof Error) {
+        setError(e.message);
+      } else {
+        setError("An unexpected error occurred.");
+      }
+    }
   };
 
   return (
@@ -204,6 +244,8 @@ export default function Signup() {
                 stateSetter={setPassword}
               />
             </section>
+
+            {error && <p className="text-red-500">{error}</p>}
 
             <button
               type="submit"

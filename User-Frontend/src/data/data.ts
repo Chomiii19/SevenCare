@@ -1,3 +1,5 @@
+export const BACKEND_DOMAIN = "";
+
 export const whyChooseUs = [
   "Transparent Pricing",
   "Coordinated Care",

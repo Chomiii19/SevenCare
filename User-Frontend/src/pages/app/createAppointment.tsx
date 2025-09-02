@@ -1,16 +1,62 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Header2 from "../../components/Header2";
 import Sidebar from "../../components/Sidebar";
-import { medicalDepartments } from "../../data/data";
+import { BACKEND_DOMAIN, medicalDepartments } from "../../data/data";
 import { useState } from "react";
+import axios, { AxiosError } from "axios";
 
 export default function CreateAppointment() {
+  const navigate = useNavigate();
   const [medicalDepartment, setMedicalDepartment] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [useRegisteredContact, setUseRegisteredContact] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const appointmentData = {
+      medicalDepartment,
+      date,
+      time,
+      email,
+      phoneNumber,
+      useRegisteredContact,
+    };
+
+    try {
+      const response = await axios.post(
+        `${BACKEND_DOMAIN}/api/v1/auth/login`,
+        appointmentData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        },
+      );
+
+      console.log("Appointment is scheduled:", response.data);
+
+      navigate("/home");
+    } catch (e) {
+      console.log(e);
+      if (axios.isAxiosError(e)) {
+        const err = e as AxiosError<{ message?: string }>;
+        setError(
+          err.response?.data?.message ??
+            "Failed to create appointment. Please try again.",
+        );
+      } else if (e instanceof Error) {
+        setError(e.message);
+      } else {
+        setError("An unexpected error occurred.");
+      }
+    }
+  };
 
   return (
     <main className="flex flex-col w-full h-screen font-roboto pt-18 pl-56 bg-zinc-100 text-zinc-900">
@@ -24,7 +70,10 @@ export default function CreateAppointment() {
           </p>
         </header>
 
-        <form className="flex  flex-col w-full flex-1 mt-3 bg-primaryLight/15 rounded-xl p-3">
+        <form
+          onSubmit={handleSubmit}
+          className="flex  flex-col w-full flex-1 mt-3 bg-primaryLight/15 rounded-xl p-3"
+        >
           <p className="font-bold">
             Which medical department would you like to make an appointment for?
           </p>
@@ -108,6 +157,12 @@ export default function CreateAppointment() {
             </label>
           </div>
 
+          {error && (
+            <p className="text-red-500 w-full flex justify-center items-center mt-3">
+              {error}
+            </p>
+          )}
+
           <section className="w-full flex flex-row justify-end items-center mt-10">
             <div className="flex flex-row items-center gap-3">
               <Link
@@ -116,7 +171,10 @@ export default function CreateAppointment() {
               >
                 Cancel
               </Link>
-              <button className="bg-primary py-2 px-4 text-zinc-100 font-bold rounded-xl cursor-pointer">
+              <button
+                type="submit"
+                className="bg-primary py-2 px-4 text-zinc-100 font-bold rounded-xl cursor-pointer"
+              >
                 Submit
               </button>
             </div>
