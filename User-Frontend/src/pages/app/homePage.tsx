@@ -25,7 +25,7 @@ export default function HomePage() {
             <p className="font-ribeye">Make an Appointment</p>
           </Link>
           <Link
-            to=""
+            to="/appointments"
             className="border border-zinc-400 rounded-xl flex flex-col justify-center items-center gap-3 hover:scale-105 transition-all duration-150"
           >
             <img src="/assets/icons/list.png" alt="" />

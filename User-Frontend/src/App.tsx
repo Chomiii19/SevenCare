@@ -9,6 +9,7 @@ import ForgotPassword from "./pages/auth/forgotPassword";
 import ResetPassword from "./pages/auth/resetPassword";
 import HomePage from "./pages/app/homePage";
 import CreateAppointment from "./pages/app/createAppointment";
+import ViewAppointments from "./pages/app/viewAppointments";
 
 export default function App() {
   return (
@@ -28,6 +29,7 @@ export default function App() {
 
         {/* App Pages */}
         <Route path="/home" element={<HomePage />} />
+        <Route path="/appointments" element={<ViewAppointments />} />
         <Route path="/appointments/create" element={<CreateAppointment />} />
       </Routes>
     </BrowserRouter>
