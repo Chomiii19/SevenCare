@@ -7,7 +7,7 @@ export const createAppointment = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { medicalDepartment, date, time, email, phoneNumber } = req.body;
 
-    if (!medicalDepartment || !date || !time || !email)
+    if (!medicalDepartment || !date || !time || !email || !phoneNumber)
       return next(new AppError("Invalid empty fields", 400));
 
     const schedule = new Date(`${date}T${time}:00`);

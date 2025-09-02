@@ -17,7 +17,7 @@ const createSendToken = (
   const cookieOption = {
     maxAge: Number(process.env.COOKIE_EXPIRES_IN) * 24 * 60 * 60 * 1000,
     httpOnly: true,
-    secure: true,
+    secure: process.env.NODE_ENV === "PRODUCTION",
     sameSite: "none" as "none",
     path: "/",
   };
@@ -31,6 +31,8 @@ export const signup = catchAsync(
     const {
       firstname,
       surname,
+      maritalStatus,
+      gender,
       birthDate,
       address,
       email,
@@ -41,6 +43,8 @@ export const signup = catchAsync(
     if (
       !firstname ||
       !surname ||
+      !maritalStatus ||
+      !gender ||
       !birthDate ||
       !address ||
       !email ||
@@ -57,6 +61,8 @@ export const signup = catchAsync(
       firstname,
       surname,
       birthDate,
+      maritalStatus,
+      gender,
       address,
       email,
       phoneNumber,

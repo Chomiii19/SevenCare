@@ -1,4 +1,4 @@
-export interface IAppointment extends Document {
+export interface IAppointment {
   _id: number;
   patientId: number;
   medicalDepartment:
@@ -18,4 +18,16 @@ export interface IAppointment extends Document {
   isPaid: boolean;
   createdAt: Date;
   isDeleted: boolean;
+}
+
+export interface IUser {
+  _id: number;
+  firstname: string;
+  surname: string;
+  gender: string;
+  birthDate: string;
+  address: string;
+  email: string;
+  phoneNumber: string;
+  password: string;
 }

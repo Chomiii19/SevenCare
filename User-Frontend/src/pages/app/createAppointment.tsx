@@ -27,9 +27,11 @@ export default function CreateAppointment() {
       useRegisteredContact,
     };
 
+    console.log(appointmentData);
+
     try {
       const response = await axios.post(
-        `${BACKEND_DOMAIN}/api/v1/auth/login`,
+        `${BACKEND_DOMAIN}/api/v1/appointments/create`,
         appointmentData,
         {
           headers: {

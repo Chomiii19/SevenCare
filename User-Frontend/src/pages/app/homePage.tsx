@@ -1,15 +1,20 @@
 import { Link } from "react-router-dom";
 import Header2 from "../../components/Header2";
 import Sidebar from "../../components/Sidebar";
+import { useUser } from "../../hooks/useUser";
 
 export default function HomePage() {
+  const { user } = useUser();
+
   return (
     <main className="flex flex-col w-full h-screen font-roboto pt-18 pl-56 bg-zinc-100 text-zinc-900">
       <Header2 />
       <Sidebar />
       <div className="h-full  w-full p-5 flex flex-col">
         <header>
-          <h1 className="text-2xl font-bold">Hello, John Doe</h1>
+          <h1 className="text-2xl font-bold">{`Hello, ${
+            user?.firstname || ""
+          } ${user?.surname || ""}`}</h1>
           <h2>
             Welcome to{" "}
             <span className="text-primary font-bold">SevenCare!</span>

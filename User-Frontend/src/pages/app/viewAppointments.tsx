@@ -16,10 +16,10 @@ export default function ViewAppointments() {
     const fetchAppointments = async () => {
       try {
         const response = await axios.get(
-          `${BACKEND_DOMAIN}/api/v1/auth/appointments`,
+          `${BACKEND_DOMAIN}/api/v1/appointments`,
           { withCredentials: true },
         );
-        setAppointments(response.data);
+        setAppointments(response.data.data);
       } catch (error) {
         console.error("Failed to fetch appointments", error);
       } finally {

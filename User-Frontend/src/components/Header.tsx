@@ -1,6 +1,16 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useUser } from "../hooks/useUser";
 
 export default function Header({ active }: { active: string }) {
+  const { refreshUser, user } = useUser();
+
+  useEffect(() => {
+    refreshUser();
+  }, []);
+
+  console.log(user);
+
   return (
     <header className="fixed top-0 w-full flex flex-row justify-between items-center pt-2 pb-0.5 px-20 z-50 bg-zinc-100">
       <div className="flex flex-row  items-center">
@@ -50,12 +60,21 @@ export default function Header({ active }: { active: string }) {
         >
           Contact Us
         </Link>
-        <Link
-          to="/login"
-          className="bg-primary rounded-lg py-1 px-5 text-zinc-100"
-        >
-          Login
-        </Link>
+        {user ? (
+          <Link
+            to="/home"
+            className="bg-primary rounded-lg py-1 px-5 text-zinc-100"
+          >
+            Get Started
+          </Link>
+        ) : (
+          <Link
+            to="/login"
+            className="bg-primary rounded-lg py-1 px-5 text-zinc-100"
+          >
+            Login
+          </Link>
+        )}
       </nav>
     </header>
   );

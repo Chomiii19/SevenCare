@@ -13,6 +13,14 @@ const UserSchema = new mongoose.Schema<IUser>({
     type: String,
     required: [true, "Surname field is required"],
   },
+  gender: {
+    type: String,
+    required: true,
+  },
+  maritalStatus: {
+    type: String,
+    required: true,
+  },
   birthDate: {
     type: String,
     required: [true, "Birthdate field is required"],
@@ -50,7 +58,7 @@ UserSchema.pre("save", async function (this: IUser, next: NextFunction) {
 UserSchema.methods.comparePassword = async function (
   password: string,
 ): Promise<boolean> {
-  return await bcrypt.compare("password", this.password);
+  return await bcrypt.compare(password, this.password);
 };
 
 const User = mongoose.model("user", UserSchema);
