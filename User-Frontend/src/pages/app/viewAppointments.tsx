@@ -204,6 +204,7 @@ function DeleteAppointmentModal({
       </div>
       <div className="flex justify-end items-center gap-5">
         <button
+          type="button"
           onClick={handleDeleteAppointment}
           className="bg-[#458FF6] rounded-lg px-5 py-1 font-bold text-white cursor-pointer"
         >

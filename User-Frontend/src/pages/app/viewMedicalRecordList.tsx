@@ -12,7 +12,22 @@ import { Trash2 } from "lucide-react";
 export default function ViewMedicalRecordList() {
   const [selectedRecord, setSelectedRecord] = useState("");
   const [showDeleteRecordModal, setShowDeleteRecordModal] = useState(false);
-  const [medicalRecords, setMedicalRecords] = useState<IMedicalRecord[]>([]);
+  const [medicalRecords, setMedicalRecords] = useState<IMedicalRecord[]>([
+    {
+      _id: "dummy123",
+      appointmentId: "appt123",
+      status: "Completed",
+      diagnosis: "Mild fever, prescribed paracetamol",
+      createdAt: new Date("2025-09-01T10:30:00Z"),
+    },
+    {
+      _id: "dummy456",
+      appointmentId: "appt456",
+      status: "Pending",
+      diagnosis: "Check-up scheduled",
+      createdAt: new Date("2025-09-05T14:00:00Z"),
+    },
+  ]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -47,7 +62,7 @@ export default function ViewMedicalRecordList() {
             <h3>Action</h3>
           </header>
 
-          <section className="flex flex-col gap-3 h-full w-full overflow-y-auto relative">
+          <section className="flex flex-col gap-1 h-full w-full overflow-y-auto relative">
             {/* Delete Appointment Modal */}
             {selectedRecord && showDeleteRecordModal && (
               <DeleteRecordModal
@@ -78,17 +93,17 @@ export default function ViewMedicalRecordList() {
                         alt=""
                         className="w-5"
                       />
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setSelectedRecord(record._id);
-                          setShowDeleteRecordModal(true);
-                        }}
-                        className="cursor-pointer"
-                      >
-                        <Trash2 className="text-red-500" />
-                      </button>
                     </Link>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelectedRecord(record._id);
+                        setShowDeleteRecordModal(true);
+                      }}
+                      className="cursor-pointer"
+                    >
+                      <Trash2 className="text-red-500" />
+                    </button>
                   </div>
                 </div>
               ))

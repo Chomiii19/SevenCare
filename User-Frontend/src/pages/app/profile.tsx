@@ -39,20 +39,9 @@ export default function Profile() {
 
       if (password.trim() !== "") updateData.password = password;
 
-      await axios.patch(
-        `${BACKEND_DOMAIN}/api/v1/users/update`,
-        {
-          firstname,
-          surname,
-          address,
-          email,
-          phoneNumber,
-          password,
-        },
-        {
-          withCredentials: true,
-        },
-      );
+      await axios.patch(`${BACKEND_DOMAIN}/api/v1/users/update`, updateData, {
+        withCredentials: true,
+      });
 
       alert("Profile updated successfully!");
     } catch (error) {

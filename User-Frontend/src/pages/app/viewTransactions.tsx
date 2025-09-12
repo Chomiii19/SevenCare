@@ -9,7 +9,24 @@ import Loading from "../../components/Loading";
 import { Link } from "react-router-dom";
 
 export default function ViewTransactions() {
-  const [appointments, setAppointments] = useState<ITransactions[]>([]);
+  const [appointments, setAppointments] = useState<ITransactions[]>([
+    {
+      _id: "txn123",
+      appointmentId: "appt123",
+      amount: 1500,
+      modeOfPayment: "Cash",
+      status: "Paid",
+      createdAt: new Date("2025-09-01T09:30:00Z"),
+    },
+    {
+      _id: "txn456",
+      appointmentId: "appt456",
+      amount: 2500,
+      modeOfPayment: "GCash",
+      status: "Pending",
+      createdAt: new Date("2025-09-05T13:15:00Z"),
+    },
+  ]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -52,15 +69,14 @@ export default function ViewTransactions() {
               appointments.map((appt) => (
                 <div
                   key={appt._id}
-                  className="grid grid-cols-4 mt-3 bg-primaryLight/15 rounded-xl p-3"
+                  className="grid grid-cols-5 mt-3 bg-primaryLight/15 rounded-xl p-3"
                 >
                   <p>{appt._id}</p>
                   <p>{appt.amount}</p>
+                  <p>{appt.modeOfPayment}</p>
                   <p>{appt.status}</p>
                   <div className="flex gap-4 items-center">
-                    <p>
-                      {dayjs(appt.modeOfPayment).format("MM/DD/YY, h:mm A")}
-                    </p>
+                    <p>{dayjs(appt.createdAt).format("MM/DD/YY, h:mm A")}</p>
                     <Link
                       to={`/transactions/${appt._id}/receipt`}
                       className="cursor-pointer"
