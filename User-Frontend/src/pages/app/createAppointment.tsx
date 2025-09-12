@@ -4,9 +4,11 @@ import Sidebar from "../../components/Sidebar";
 import { BACKEND_DOMAIN, medicalDepartments } from "../../data/data";
 import { useState } from "react";
 import axios, { AxiosError } from "axios";
+import { useUser } from "../../hooks/useUser";
 
 export default function CreateAppointment() {
   const navigate = useNavigate();
+  const { user } = useUser();
   const [medicalDepartment, setMedicalDepartment] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
@@ -14,6 +16,17 @@ export default function CreateAppointment() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [useRegisteredContact, setUseRegisteredContact] = useState(false);
   const [error, setError] = useState("");
+
+  const handleRegisteredContactChange = (checked: boolean) => {
+    setUseRegisteredContact(checked);
+    if (checked && user) {
+      setEmail(user.email || "");
+      setPhoneNumber(user.phoneNumber || "");
+    } else {
+      setEmail("");
+      setPhoneNumber("");
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,9 +37,7 @@ export default function CreateAppointment() {
       time,
       email,
       phoneNumber,
-      useRegisteredContact,
     };
-
     console.log(appointmentData);
 
     try {
@@ -80,8 +91,8 @@ export default function CreateAppointment() {
             Which medical department would you like to make an appointment for?
           </p>
           <section className="grid grid-cols-3 grid-rows-3 gap-3">
-            {medicalDepartments.map((department) => (
-              <div className="flex flex-row items-center gap-2">
+            {medicalDepartments.map((department, i) => (
+              <div key={i} className="flex flex-row items-center gap-2">
                 <input
                   type="radio"
                   name="medicalDepartment"
@@ -152,7 +163,7 @@ export default function CreateAppointment() {
               name="registeredContact"
               id="registeredContact"
               checked={useRegisteredContact}
-              onChange={(e) => setUseRegisteredContact(e.target.checked)}
+              onChange={(e) => handleRegisteredContactChange(e.target.checked)}
             />
             <label htmlFor="registeredContact" className="text-sm">
               Use registered contact details
