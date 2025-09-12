@@ -61,7 +61,7 @@ export default function CreateAppointment() {
   };
 
   return (
-    <main className="flex flex-col w-full h-screen font-roboto pt-18 pl-56 bg-zinc-100 text-zinc-900">
+    <main className="flex flex-col w-full h-screen font-roboto pt-18 pl-56 bg-bg-color text-zinc-900">
       <Header2 />
       <Sidebar />
       <div className="h-full  w-full p-5 flex flex-col">
@@ -106,7 +106,7 @@ export default function CreateAppointment() {
               name="appointmentDate"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className="px-2 py-1 bg-zinc-100 rounded-lg outline-none border border-transparent focus:border-primary duration-150 ease-in-out"
+              className="px-2 py-1 bg-white rounded-lg outline-none border border-transparent focus:border-primary duration-150 ease-in-out"
             />
           </div>
           <div className="flex flex-row gap-3 mt-2">
@@ -117,7 +117,7 @@ export default function CreateAppointment() {
               name="appointmentTime"
               value={time}
               onChange={(e) => setTime(e.target.value)}
-              className="px-2 py-1 bg-zinc-100 rounded-lg outline-none border border-transparent focus:border-primary duration-150 ease-in-out"
+              className="px-2 py-1 bg-white rounded-lg outline-none border border-transparent focus:border-primary duration-150 ease-in-out"
             />
           </div>
 
@@ -131,7 +131,7 @@ export default function CreateAppointment() {
               name="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="px-2 py-1 bg-zinc-100 rounded-lg outline-none border border-transparent focus:border-primary duration-150 ease-in-out"
+              className="px-2 py-1 bg-white rounded-lg outline-none border border-transparent focus:border-primary duration-150 ease-in-out"
             />
           </div>
           <div className="flex flex-row gap-3 mt-2">
@@ -143,7 +143,7 @@ export default function CreateAppointment() {
               id="phoneNumber"
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
-              className="px-2 py-1 bg-zinc-100 rounded-lg outline-none border border-transparent focus:border-primary duration-150 ease-in-out"
+              className="px-2 py-1 bg-white rounded-lg outline-none border border-transparent focus:border-primary duration-150 ease-in-out"
             />
           </div>
           <div className="flex flex-row items-center gap-1 w-full">

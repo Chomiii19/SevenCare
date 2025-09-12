@@ -15,7 +15,7 @@ export default function Sidebar() {
     };
 
     checkUser();
-  }, []);
+  }, [navigate, refreshUser]);
 
   return (
     <nav className="w-56 h-screen fixed z-30 left-0 top-0 pt-20 py-10 flex flex-col   justify-between items-center bg-primaryLight/20 text-sm">
@@ -34,7 +34,7 @@ export default function Sidebar() {
           <p>Home</p>
         </Link>
         <Link
-          to="/"
+          to="/notifications"
           className="flex flex-col items-center gap-2 hover:text-primary hover:scale-105 transition-all duration-150"
         >
           <Bell />
