@@ -133,7 +133,7 @@ function TodayAppointment() {
               className="grid grid-cols-5 mt-3 bg-primaryLight/15 rounded-xl p-3"
             >
               <p>{appt.patientName}</p>
-              <p>{appt.medicalDepartment.concat(", ")}</p>
+              <p>{appt.medicalDepartment.join(", ")}</p>
               <p>{dayjs(appt.schedule).format("MM/DD/YY, h:mm A")}</p>
               <p
                 className={`font-bold ${
@@ -231,7 +231,7 @@ function AppointmentRequest() {
               className="grid grid-cols-4 mt-3 bg-primaryLight/15 rounded-xl p-3"
             >
               <p>{appt.patientName}</p>
-              <p>{appt.medicalDepartment.concat(", ")}</p>
+              <p>{appt.medicalDepartment.join(", ")}</p>
               <p>{dayjs(appt.schedule).format("MM/DD/YY, h:mm A")}</p>
               <div className="flex gap-2 items-center">
                 <button
@@ -315,7 +315,7 @@ function AllAppointments() {
               className="grid grid-cols-5 mt-3 bg-primaryLight/15 rounded-xl p-3"
             >
               <p>{appt.patientName}</p>
-              <p>{appt.medicalDepartment.concat(", ")}</p>
+              <p>{appt.medicalDepartment.join(", ")}</p>
               <p>{dayjs(appt.schedule).format("MM/DD/YY, h:mm A")}</p>
               <p
                 className={`font-bold ${
