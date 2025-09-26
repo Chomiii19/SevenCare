@@ -107,7 +107,7 @@ function TodayAppointment() {
         {},
         { withCredentials: true },
       );
-      fetchAppointments(); // refresh after marking no-show
+      fetchAppointments();
     } catch (error) {
       console.error("Failed to mark appointment as no-show", error);
     }
@@ -132,7 +132,7 @@ function TodayAppointment() {
               key={appt._id}
               className="grid grid-cols-5 mt-3 bg-primaryLight/15 rounded-xl p-3"
             >
-              <p>{appt._id}</p>
+              <p>{appt.patientName}</p>
               <p>{appt.medicalDepartment.concat(", ")}</p>
               <p>{dayjs(appt.schedule).format("MM/DD/YY, h:mm A")}</p>
               <p
@@ -206,11 +206,12 @@ function AppointmentRequest() {
     <section className="flex flex-col gap-3 h-full w-full overflow-y-auto relative">
       {/* Delete Appointment Modal */}
       {selectedAppointment && showDeleteAppointmentModal && (
-        <DeleteAppointmentModal
+        <DeclineAppointmentModal
           selectedAppointment={selectedAppointment}
           setSelectedAppointment={setSelectedAppointment}
           setShowDeleteAppointmentModal={setShowDeleteAppointmentModal}
           setAppointments={setAppointments}
+          fetchAppointments={fetchAppointments}
         />
       )}
 
@@ -229,7 +230,7 @@ function AppointmentRequest() {
               key={appt._id}
               className="grid grid-cols-4 mt-3 bg-primaryLight/15 rounded-xl p-3"
             >
-              <p>{appt._id}</p>
+              <p>{appt.patientName}</p>
               <p>{appt.medicalDepartment.concat(", ")}</p>
               <p>{dayjs(appt.schedule).format("MM/DD/YY, h:mm A")}</p>
               <div className="flex gap-2 items-center">
@@ -242,7 +243,10 @@ function AppointmentRequest() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => handleAction(appt._id, "decline")}
+                  onClick={() => {
+                    setSelectedAppointment(appt._id);
+                    setShowDeleteAppointmentModal(true);
+                  }}
                   className="w-fit rounded-lg px-3 font-bold cursor-pointer text-white bg-red-500"
                 >
                   DECLINE
@@ -267,7 +271,7 @@ function AllAppointments() {
     const fetchAppointments = async () => {
       try {
         const response = await axios.get(
-          `${BACKEND_DOMAIN}/api/v1/appointments`,
+          `${BACKEND_DOMAIN}/api/v1/appointments/all`,
           { withCredentials: true },
         );
         setAppointments(response.data.data);
@@ -310,7 +314,7 @@ function AllAppointments() {
               key={appt._id}
               className="grid grid-cols-5 mt-3 bg-primaryLight/15 rounded-xl p-3"
             >
-              <p>{appt._id}</p>
+              <p>{appt.patientName}</p>
               <p>{appt.medicalDepartment.concat(", ")}</p>
               <p>{dayjs(appt.schedule).format("MM/DD/YY, h:mm A")}</p>
               <p
@@ -372,6 +376,71 @@ function AllAppointments() {
         </>
       )}
     </section>
+  );
+}
+
+function DeclineAppointmentModal({
+  selectedAppointment,
+  setSelectedAppointment,
+  setShowDeleteAppointmentModal,
+  fetchAppointments,
+}: {
+  selectedAppointment: string;
+  setSelectedAppointment: React.Dispatch<React.SetStateAction<string>>;
+  setShowDeleteAppointmentModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setAppointments: React.Dispatch<React.SetStateAction<IAppointment[]>>;
+  fetchAppointments: () => Promise<void>;
+}) {
+  const handleDeclineAppointment = async () => {
+    try {
+      await axios.patch(
+        `${BACKEND_DOMAIN}/api/v1/appointments/${selectedAppointment}/decline`,
+        {},
+        { withCredentials: true },
+      );
+
+      setSelectedAppointment("");
+      setShowDeleteAppointmentModal(false);
+      fetchAppointments();
+    } catch (error) {
+      console.error("Failed to delete appointment", error);
+    }
+  };
+
+  return (
+    <dialog className="h-auto w-[40%] flex-col flex p-8 rounded-lg bg-[#E9F5FF] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 gap-5">
+      <div className="flex flex-col justify-center items-center gap-5">
+        <p className="italic">
+          Are you sure you want to decline this appointment?
+        </p>
+
+        <textarea
+          name="reason"
+          id="reason"
+          placeholder="Reason"
+          className="border border-zinc-400 bg-white p-2 w-88 rounded-lg resize-none outline-none"
+        />
+      </div>
+      <div className="flex justify-end items-center gap-5">
+        <button
+          type="button"
+          onClick={handleDeclineAppointment}
+          className="bg-[#458FF6] rounded-lg px-5 py-1 font-bold text-white cursor-pointer"
+        >
+          YES
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            setSelectedAppointment("");
+            setShowDeleteAppointmentModal(false);
+          }}
+          className="bg-[#458FF6] rounded-lg px-5 py-1 font-bold text-white cursor-pointer"
+        >
+          Cancel
+        </button>
+      </div>
+    </dialog>
   );
 }
 

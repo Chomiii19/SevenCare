@@ -1,16 +1,25 @@
 import { Link } from "react-router-dom";
 import Sidebar from "../../components/Sidebar";
 import Header2 from "../../components/Header2";
-import DatePicker from "react-datepicker";
+import { LocalizationProvider, StaticDatePicker } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useEffect, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
 import { BACKEND_DOMAIN } from "../../data/data";
+import dayjs, { Dayjs } from "dayjs";
 
 interface IAppointmentSummary {
   today: number;
   cancelled: number;
   pending: number;
+}
+
+interface TodayAppointment {
+  _id: string;
+  patientName: string;
+  medicalDepartment: string[];
+  schedule: string;
 }
 
 export default function DashboardPage() {
@@ -100,7 +109,8 @@ function AppointmentSummary() {
 }
 
 function Dashboard() {
-  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
+  const [selectedDate, setSelectedDate] = useState<Dayjs | null>(dayjs());
+
   return (
     <section className="grid grid-cols-3 gap-8 w-full flex-1 mt-5 mb-10">
       <div className="flex flex-col">
@@ -112,12 +122,14 @@ function Dashboard() {
       </div>
       <div className="flex flex-col gap-4 col-span-2">
         <TodayAppointment />
-        <div className="p-4">
-          <DatePicker
-            selected={selectedDate}
-            onChange={(date) => setSelectedDate(date)}
-            inline
-          />
+        <div className="p-4 border border-zinc-400 rounded-lg">
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <StaticDatePicker
+              defaultValue={dayjs("2022-04-17")}
+              value={selectedDate}
+              onChange={(newDate) => setSelectedDate(newDate)}
+            />
+          </LocalizationProvider>
         </div>
       </div>
     </section>
@@ -168,9 +180,9 @@ function AvailableServices() {
       </header>
       <ul className="flex flex-col gap-1 mt-2">
         <li>Ultrasound</li>
-        <li>Ultrasound</li>
-        <li>Ultrasound</li>
-        <li>Ultrasound</li>
+        <li>Consultation</li>
+        <li>Family Planning</li>
+        <li>Prenatal Check Up</li>
       </ul>
     </div>
   );
@@ -204,6 +216,25 @@ function Reviews() {
 }
 
 function TodayAppointment() {
+  const [appointments, setAppointments] = useState<TodayAppointment[]>([]);
+
+  useEffect(() => {
+    async function fetchAppointments() {
+      try {
+        const res = await axios.get(
+          `${BACKEND_DOMAIN}/api/v1/appointments/today/approved`,
+          { withCredentials: true },
+        );
+        console.log(res.data.data);
+        setAppointments(res.data.data.slice(0, 3));
+      } catch (err) {
+        console.error("Error fetching appointments:", err);
+      }
+    }
+
+    fetchAppointments();
+  }, []);
+
   return (
     <div className="border border-zinc-400 rounded-lg bg-[#E0F7FF] flex flex-col">
       <header className="items-center justify-between flex gap-8 p-3 border-b border-b-zinc-400">
@@ -224,27 +255,20 @@ function TodayAppointment() {
         </header>
 
         <ol className="flex flex-col gap-2">
-          <li className="grid grid-cols-3">
-            <b>John Doe</b>
-            <b>Ultrasound</b>
-            <div>
-              <b className="bg-[#B2D7FE] text-primary px-2 py-1">On Going</b>
-            </div>
-          </li>
-          <li className="grid grid-cols-3">
-            <b>John Doe</b>
-            <b>Ultrasound</b>
-            <div>
-              <b className="bg-[#B2D7FE] text-primary px-2 py-1">On Going</b>
-            </div>
-          </li>
-          <li className="grid grid-cols-3">
-            <b>John Doe</b>
-            <b>Ultrasound</b>
-            <div>
-              <b className="bg-[#B2D7FE] text-primary px-2 py-1">On Going</b>
-            </div>
-          </li>
+          {appointments.map((appt) => (
+            <li className="grid grid-cols-3">
+              <b>{appt.patientName}</b>
+              <b>{appt.medicalDepartment.join(", ")}</b>
+              <div>
+                <b className="bg-[#B2D7FE] text-primary px-2 py-1">
+                  {new Date(appt.schedule).toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </b>
+              </div>
+            </li>
+          ))}
         </ol>
       </section>
     </div>

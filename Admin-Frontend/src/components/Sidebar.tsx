@@ -50,21 +50,21 @@ export default function Sidebar() {
         </Link>
 
         <Link
-          to="/"
+          to="/dashboard"
           className="flex items-center gap-6 hover:text-primary hover:scale-105 transition-all duration-150 mt-8"
         >
           <img src="/assets/icons/people.png" alt="" />
           <p className="text-[#212121]">Patient</p>
         </Link>
         <Link
-          to="/"
+          to="/dashboard"
           className="flex items-center gap-6 hover:text-primary hover:scale-105 transition-all duration-150"
         >
           <img src="/assets/icons/add.png" alt="" />
           <p className="text-[#212121]">Reports</p>
         </Link>
         <Link
-          to="/"
+          to="/dashboard"
           className="flex items-center gap-6 hover:text-primary hover:scale-105 transition-all duration-150"
         >
           <img src="/assets/icons/settings.png" alt="" />
