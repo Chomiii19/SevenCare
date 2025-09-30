@@ -206,7 +206,7 @@ function AppointmentRequest() {
 
   return (
     <section className="flex flex-col gap-3 h-full w-full relative">
-      {/* Delete Appointment Modal */}
+      {/* Decline Appointment Modal */}
       {selectedAppointment && showDeleteAppointmentModal && (
         <DeclineAppointmentModal
           selectedAppointment={selectedAppointment}
@@ -319,13 +319,14 @@ function AllAppointments() {
 
   return (
     <section className="flex flex-col gap-3 h-full w-full overflow-y-auto relative">
-      {/* Delete Appointment Modal */}
+      {/* Decline Appointment Modal */}
       {selectedAppointment && showDeleteAppointmentModal && (
-        <DeleteAppointmentModal
+        <DeclineAppointmentModal
           selectedAppointment={selectedAppointment}
           setSelectedAppointment={setSelectedAppointment}
           setShowDeleteAppointmentModal={setShowDeleteAppointmentModal}
           setAppointments={setAppointments}
+          fetchAppointments={fetchAppointments}
         />
       )}
 
@@ -444,9 +445,9 @@ function DeclineAppointmentModal({
   };
 
   return (
-    <dialog className="h-auto w-[40%] flex-col flex p-8 rounded-lg bg-[#E9F5FF] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 gap-5">
+    <dialog className="h-auto w-[40%] flex-col flex p-8 rounded-lg bg-[#333333] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 gap-5">
       <div className="flex flex-col justify-center items-center gap-5">
-        <p className="italic">
+        <p className="italic text-white">
           Are you sure you want to decline this appointment?
         </p>
 
@@ -471,7 +472,7 @@ function DeclineAppointmentModal({
             setSelectedAppointment("");
             setShowDeleteAppointmentModal(false);
           }}
-          className="bg-[#458FF6] rounded-lg px-5 py-1 font-bold text-white cursor-pointer"
+          className="bg-[#458FF6] rounded-lg px-5 py-1 font-bold text-red-500 cursor-pointer"
         >
           Cancel
         </button>
@@ -480,64 +481,64 @@ function DeclineAppointmentModal({
   );
 }
 
-function DeleteAppointmentModal({
-  selectedAppointment,
-  setSelectedAppointment,
-  setShowDeleteAppointmentModal,
-  setAppointments,
-}: {
-  selectedAppointment: string;
-  setSelectedAppointment: React.Dispatch<React.SetStateAction<string>>;
-  setShowDeleteAppointmentModal: React.Dispatch<React.SetStateAction<boolean>>;
-  setAppointments: React.Dispatch<React.SetStateAction<IAppointment[]>>;
-}) {
-  const handleDeleteAppointment = async () => {
-    try {
-      await axios.delete(
-        `${BACKEND_DOMAIN}/api/v1/appointments/${selectedAppointment}`,
-        {
-          withCredentials: true,
-        },
-      );
+// function DeleteAppointmentModal({
+//   selectedAppointment,
+//   setSelectedAppointment,
+//   setShowDeleteAppointmentModal,
+//   setAppointments,
+// }: {
+//   selectedAppointment: string;
+//   setSelectedAppointment: React.Dispatch<React.SetStateAction<string>>;
+//   setShowDeleteAppointmentModal: React.Dispatch<React.SetStateAction<boolean>>;
+//   setAppointments: React.Dispatch<React.SetStateAction<IAppointment[]>>;
+// }) {
+//   const handleDeleteAppointment = async () => {
+//     try {
+//       await axios.delete(
+//         `${BACKEND_DOMAIN}/api/v1/appointments/${selectedAppointment}`,
+//         {
+//           withCredentials: true,
+//         },
+//       );
 
-      setAppointments((prev) =>
-        prev.filter((appt) => appt._id !== selectedAppointment),
-      );
+//       setAppointments((prev) =>
+//         prev.filter((appt) => appt._id !== selectedAppointment),
+//       );
 
-      setSelectedAppointment("");
-      setShowDeleteAppointmentModal(false);
-    } catch (error) {
-      console.error("Failed to delete appointment", error);
-    }
-  };
+//       setSelectedAppointment("");
+//       setShowDeleteAppointmentModal(false);
+//     } catch (error) {
+//       console.error("Failed to delete appointment", error);
+//     }
+//   };
 
-  return (
-    <dialog className="h-auto w-[40%] flex-col flex p-8 rounded-lg bg-[#E9F5FF] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 gap-5">
-      <div className="flex justify-center items-center gap-5">
-        <img src="/assets/icons/trash.png" alt="" />
-        <p className="italic">
-          Are you sure you want to delete this appointment?
-        </p>
-      </div>
-      <div className="flex justify-end items-center gap-5">
-        <button
-          type="button"
-          onClick={handleDeleteAppointment}
-          className="bg-[#458FF6] rounded-lg px-5 py-1 font-bold text-white cursor-pointer"
-        >
-          OK
-        </button>
-        <button
-          type="button"
-          onClick={() => {
-            setSelectedAppointment("");
-            setShowDeleteAppointmentModal(false);
-          }}
-          className="bg-[#458FF6] rounded-lg px-5 py-1 font-bold text-white cursor-pointer"
-        >
-          Cancel
-        </button>
-      </div>
-    </dialog>
-  );
-}
+//   return (
+//     <dialog className="h-auto w-[40%] flex-col flex p-8 rounded-lg bg-[#E9F5FF] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 gap-5">
+//       <div className="flex justify-center items-center gap-5">
+//         <img src="/assets/icons/trash.png" alt="" />
+//         <p className="italic">
+//           Are you sure you want to delete this appointment?
+//         </p>
+//       </div>
+//       <div className="flex justify-end items-center gap-5">
+//         <button
+//           type="button"
+//           onClick={handleDeleteAppointment}
+//           className="bg-[#458FF6] rounded-lg px-5 py-1 font-bold text-white cursor-pointer"
+//         >
+//           OK
+//         </button>
+//         <button
+//           type="button"
+//           onClick={() => {
+//             setSelectedAppointment("");
+//             setShowDeleteAppointmentModal(false);
+//           }}
+//           className="bg-[#458FF6] rounded-lg px-5 py-1 font-bold text-white cursor-pointer"
+//         >
+//           Cancel
+//         </button>
+//       </div>
+//     </dialog>
+//   );
+// }
