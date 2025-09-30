@@ -272,23 +272,50 @@ function AllAppointments() {
   const [appointments, setAppointments] = useState<IAppointment[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchAppointments = async () => {
-      try {
-        const response = await axios.get(
-          `${BACKEND_DOMAIN}/api/v1/appointments/all`,
-          { withCredentials: true },
-        );
-        setAppointments(response.data.data);
-      } catch (error) {
-        console.error("Failed to fetch appointments", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchAppointments = async () => {
+    try {
+      const response = await axios.get(
+        `${BACKEND_DOMAIN}/api/v1/appointments/all`,
+        { withCredentials: true },
+      );
+      setAppointments(response.data.data);
+    } catch (error) {
+      console.error("Failed to fetch appointments", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchAppointments();
   }, []);
+
+  const handleNoShow = async (id: string) => {
+    try {
+      await axios.patch(
+        `${BACKEND_DOMAIN}/api/v1/appointments/${id}/noshow`,
+        {},
+        { withCredentials: true },
+      );
+      fetchAppointments();
+    } catch (error) {
+      console.error("Failed to mark appointment as no-show", error);
+    }
+  };
+
+  const handleAction = async (id: string, action: "approve" | "decline") => {
+    try {
+      await axios.patch(
+        `${BACKEND_DOMAIN}/api/v1/appointments/${id}/${action}`,
+        {},
+        { withCredentials: true },
+      );
+
+      fetchAppointments();
+    } catch (error) {
+      console.error(`Failed to ${action} appointment`, error);
+    }
+  };
 
   return (
     <section className="flex flex-col gap-3 h-full w-full overflow-y-auto relative">
@@ -337,6 +364,7 @@ function AllAppointments() {
 
                 {appt.status === "Approved" && (
                   <button
+                    onClick={() => handleNoShow(appt._id)}
                     type="button"
                     className="w-fit rounded-lg px-3 font-bold cursor-pointer text-white bg-primary"
                   >
@@ -348,6 +376,7 @@ function AllAppointments() {
                   <div className="flex gap-2 items-center">
                     <button
                       type="button"
+                      onClick={() => handleAction(appt._id, "approve")}
                       className="w-fit rounded-lg px-3 font-bold cursor-pointer text-white bg-primary"
                     >
                       APPROVE
