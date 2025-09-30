@@ -127,36 +127,38 @@ function TodayAppointment() {
             <h3>Actions</h3>
           </header>
 
-          {appointments.map((appt) => (
-            <div
-              key={appt._id}
-              className="grid grid-cols-5 mt-3 bg-primaryLight/15 rounded-xl p-3"
-            >
-              <p>{appt.patientName}</p>
-              <p>{appt.medicalDepartment.join(", ")}</p>
-              <p>{dayjs(appt.schedule).format("MM/DD/YY, h:mm A")}</p>
-              <p
-                className={`font-bold ${
-                  appt.status === "Pending"
-                    ? "text-primary"
-                    : appt.status === "Approved"
-                    ? "text-green-400"
-                    : "text-red-500"
-                }`}
+          <section className="h-full w-full flex flex-col overflow-y-auto">
+            {appointments.map((appt) => (
+              <div
+                key={appt._id}
+                className="grid grid-cols-5 mt-3 bg-primaryLight/15 rounded-xl p-3 overflow-auto"
               >
-                {appt.status === "Approved" ? "Ongoing" : appt.status}
-              </p>
-              {appt.status === "Approved" && (
-                <button
-                  type="button"
-                  onClick={() => handleNoShow(appt._id)}
-                  className="w-fit rounded-lg px-3 font-bold cursor-pointer text-white bg-primary"
+                <p>{appt.patientName}</p>
+                <p>{appt.medicalDepartment.join(", ")}</p>
+                <p>{dayjs(appt.schedule).format("MM/DD/YY, h:mm A")}</p>
+                <p
+                  className={`font-bold ${
+                    appt.status === "Pending"
+                      ? "text-primary"
+                      : appt.status === "Approved"
+                      ? "text-green-400"
+                      : "text-red-500"
+                  }`}
                 >
-                  NO SHOW
-                </button>
-              )}
-            </div>
-          ))}
+                  {appt.status === "Approved" ? "Ongoing" : appt.status}
+                </p>
+                {appt.status === "Approved" && (
+                  <button
+                    type="button"
+                    onClick={() => handleNoShow(appt._id)}
+                    className="w-fit rounded-lg px-3 font-bold cursor-pointer text-white bg-primary"
+                  >
+                    NO SHOW
+                  </button>
+                )}
+              </div>
+            ))}
+          </section>
         </>
       )}
     </section>
@@ -203,7 +205,7 @@ function AppointmentRequest() {
   };
 
   return (
-    <section className="flex flex-col gap-3 h-full w-full overflow-y-auto relative">
+    <section className="flex flex-col gap-3 h-full w-full relative">
       {/* Delete Appointment Modal */}
       {selectedAppointment && showDeleteAppointmentModal && (
         <DeclineAppointmentModal
@@ -225,35 +227,38 @@ function AppointmentRequest() {
             <h3>Date and Time</h3>
             <h3>Actions</h3>
           </header>
-          {appointments.map((appt) => (
-            <div
-              key={appt._id}
-              className="grid grid-cols-4 mt-3 bg-primaryLight/15 rounded-xl p-3"
-            >
-              <p>{appt.patientName}</p>
-              <p>{appt.medicalDepartment.join(", ")}</p>
-              <p>{dayjs(appt.schedule).format("MM/DD/YY, h:mm A")}</p>
-              <div className="flex gap-2 items-center">
-                <button
-                  type="button"
-                  onClick={() => handleAction(appt._id, "approve")}
-                  className="w-fit rounded-lg px-3 font-bold cursor-pointer text-white bg-primary"
-                >
-                  APPROVE
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setSelectedAppointment(appt._id);
-                    setShowDeleteAppointmentModal(true);
-                  }}
-                  className="w-fit rounded-lg px-3 font-bold cursor-pointer text-white bg-red-500"
-                >
-                  DECLINE
-                </button>
+
+          <section className="h-full w-full flex flex-col overflow-y-auto">
+            {appointments.map((appt) => (
+              <div
+                key={appt._id}
+                className="grid grid-cols-4 mt-3 bg-primaryLight/15 rounded-xl p-3"
+              >
+                <p>{appt.patientName}</p>
+                <p>{appt.medicalDepartment.join(", ")}</p>
+                <p>{dayjs(appt.schedule).format("MM/DD/YY, h:mm A")}</p>
+                <div className="flex gap-2 items-center">
+                  <button
+                    type="button"
+                    onClick={() => handleAction(appt._id, "approve")}
+                    className="w-fit rounded-lg px-3 font-bold cursor-pointer text-white bg-primary"
+                  >
+                    APPROVE
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSelectedAppointment(appt._id);
+                      setShowDeleteAppointmentModal(true);
+                    }}
+                    className="w-fit rounded-lg px-3 font-bold cursor-pointer text-white bg-red-500"
+                  >
+                    DECLINE
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </section>
         </>
       )}
     </section>
@@ -309,70 +314,72 @@ function AllAppointments() {
             <h3>Actions</h3>
           </header>
 
-          {appointments.map((appt) => (
-            <div
-              key={appt._id}
-              className="grid grid-cols-5 mt-3 bg-primaryLight/15 rounded-xl p-3"
-            >
-              <p>{appt.patientName}</p>
-              <p>{appt.medicalDepartment.join(", ")}</p>
-              <p>{dayjs(appt.schedule).format("MM/DD/YY, h:mm A")}</p>
-              <p
-                className={`font-bold ${
-                  appt.status === "Pending"
-                    ? "text-primary"
-                    : appt.status === "Approved"
-                    ? "text-green-400"
-                    : "text-red-500"
-                }`}
+          <section className="h-full w-full flex flex-col overflow-y-auto">
+            {appointments.map((appt) => (
+              <div
+                key={appt._id}
+                className="grid grid-cols-5 mt-3 bg-primaryLight/15 rounded-xl p-3"
               >
-                {appt.status === "Approved" ? "Ongoing" : appt.status}
-              </p>
-
-              {appt.status === "Approved" && (
-                <button
-                  type="button"
-                  className="w-fit rounded-lg px-3 font-bold cursor-pointer text-white bg-primary"
+                <p>{appt.patientName}</p>
+                <p>{appt.medicalDepartment.join(", ")}</p>
+                <p>{dayjs(appt.schedule).format("MM/DD/YY, h:mm A")}</p>
+                <p
+                  className={`font-bold ${
+                    appt.status === "Pending"
+                      ? "text-primary"
+                      : appt.status === "Approved"
+                      ? "text-green-400"
+                      : "text-red-500"
+                  }`}
                 >
-                  NO SHOW
-                </button>
-              )}
+                  {appt.status === "Approved" ? "Ongoing" : appt.status}
+                </p>
 
-              {appt.status === "Pending" && (
-                <div className="flex gap-2 items-center">
+                {appt.status === "Approved" && (
                   <button
                     type="button"
                     className="w-fit rounded-lg px-3 font-bold cursor-pointer text-white bg-primary"
                   >
-                    APPROVE
+                    NO SHOW
                   </button>
+                )}
+
+                {appt.status === "Pending" && (
+                  <div className="flex gap-2 items-center">
+                    <button
+                      type="button"
+                      className="w-fit rounded-lg px-3 font-bold cursor-pointer text-white bg-primary"
+                    >
+                      APPROVE
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelectedAppointment(appt._id);
+                        setShowDeleteAppointmentModal(true);
+                      }}
+                      className="w-fit rounded-lg px-3 font-bold cursor-pointer text-white bg-red-500"
+                    >
+                      DECLINE
+                    </button>
+                  </div>
+                )}
+
+                {appt.status !== "Approved" && appt.status !== "Pending" && (
                   <button
                     type="button"
                     onClick={() => {
                       setSelectedAppointment(appt._id);
                       setShowDeleteAppointmentModal(true);
                     }}
-                    className="w-fit rounded-lg px-3 font-bold cursor-pointer text-white bg-red-500"
+                    className="w-fit rounded-lg px-3 font-bold cursor-pointer"
                   >
-                    DECLINE
+                    <Trash2 className="text-red-500" />
                   </button>
-                </div>
-              )}
-
-              {appt.status !== "Approved" && appt.status !== "Pending" && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    setSelectedAppointment(appt._id);
-                    setShowDeleteAppointmentModal(true);
-                  }}
-                  className="w-fit rounded-lg px-3 font-bold cursor-pointer"
-                >
-                  <Trash2 className="text-red-500" />
-                </button>
-              )}
-            </div>
-          ))}
+                )}
+              </div>
+            ))}
+          </section>
         </>
       )}
     </section>
