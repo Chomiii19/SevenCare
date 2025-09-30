@@ -1,6 +1,6 @@
 import Header2 from "../../components/Header2";
 import Sidebar from "../../components/Sidebar";
-import { Trash2, ChevronDown, Check } from "lucide-react";
+import { ChevronDown, Check } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { IAppointment } from "../../@types/interface";
 import axios from "axios";
@@ -394,7 +394,7 @@ function AllAppointments() {
                   </div>
                 )}
 
-                {appt.status !== "Approved" && appt.status !== "Pending" && (
+                {/* {appt.status !== "Approved" && appt.status !== "Pending" && (
                   <button
                     type="button"
                     onClick={() => {
@@ -405,7 +405,7 @@ function AllAppointments() {
                   >
                     <Trash2 className="text-red-500" />
                   </button>
-                )}
+                )} */}
               </div>
             ))}
           </section>
