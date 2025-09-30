@@ -72,6 +72,8 @@ export default function ViewAppointments() {
           {appointmentType === "Today's Appointments" && <TodayAppointment />}
           {appointmentType === "Appointment Requests" && <AppointmentRequest />}
           {appointmentType === "All Appointments" && <AllAppointments />}
+
+          <div className="h-20 w-full" />
         </div>
       </div>
     </main>
@@ -119,7 +121,7 @@ function TodayAppointment() {
         <Loading />
       ) : (
         <>
-          <header className="grid grid-cols-5 mt-3 font-semibold">
+          <header className="grid grid-cols-5 mt-3 font-semibold gap-3">
             <h3>Patient Name</h3>
             <h3>Department</h3>
             <h3>Date and Time</h3>
@@ -131,7 +133,7 @@ function TodayAppointment() {
             {appointments.map((appt) => (
               <div
                 key={appt._id}
-                className="grid grid-cols-5 mt-3 bg-primaryLight/15 rounded-xl p-3 overflow-auto"
+                className="grid grid-cols-5 mt-3 bg-primaryLight/15 rounded-xl p-3 overflow-auto gap-3"
               >
                 <p>{appt.patientName}</p>
                 <p>{appt.medicalDepartment.join(", ")}</p>
@@ -221,7 +223,7 @@ function AppointmentRequest() {
         <Loading />
       ) : (
         <>
-          <header className="grid grid-cols-4 mt-3 font-semibold">
+          <header className="grid grid-cols-[1fr_1fr_1fr_auto]  mt-3 font-semibold gap-3">
             <h3>Patient Name</h3>
             <h3>Department</h3>
             <h3>Date and Time</h3>
@@ -232,7 +234,7 @@ function AppointmentRequest() {
             {appointments.map((appt) => (
               <div
                 key={appt._id}
-                className="grid grid-cols-4 mt-3 bg-primaryLight/15 rounded-xl p-3"
+                className="grid grid-cols-[1fr_1fr_1fr_auto]  mt-3 bg-primaryLight/15 rounded-xl p-3 gap-3"
               >
                 <p>{appt.patientName}</p>
                 <p>{appt.medicalDepartment.join(", ")}</p>
@@ -334,7 +336,7 @@ function AllAppointments() {
         <Loading />
       ) : (
         <>
-          <header className="grid grid-cols-5 mt-3 font-semibold">
+          <header className="grid grid-cols-[1fr_1fr_1fr_1fr_auto]  mt-3 font-semibold gap-3">
             <h3>Patient Name</h3>
             <h3>Department</h3>
             <h3>Date and Time</h3>
@@ -346,7 +348,7 @@ function AllAppointments() {
             {appointments.map((appt) => (
               <div
                 key={appt._id}
-                className="grid grid-cols-5 mt-3 bg-primaryLight/15 rounded-xl p-3"
+                className="grid grid-cols-[1fr_1fr_1fr_1fr_auto]  mt-3 bg-primaryLight/15 rounded-xl p-3 gap-3"
               >
                 <p>{appt.patientName}</p>
                 <p>{appt.medicalDepartment.join(", ")}</p>
