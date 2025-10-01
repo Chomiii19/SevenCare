@@ -102,10 +102,10 @@ function TodayAppointment() {
     fetchAppointments();
   }, []);
 
-  const handleNoShow = async (id: string) => {
+  const handleAction = async (id: string, action: string) => {
     try {
       await axios.patch(
-        `${BACKEND_DOMAIN}/api/v1/appointments/${id}/noshow`,
+        `${BACKEND_DOMAIN}/api/v1/appointments/${id}/${action}`,
         {},
         { withCredentials: true },
       );
@@ -156,13 +156,22 @@ function TodayAppointment() {
                     {appt.status === "Approved" ? "Ongoing" : appt.status}
                   </p>
                   {appt.status === "Approved" && (
-                    <button
-                      type="button"
-                      onClick={() => handleNoShow(appt._id)}
-                      className="w-fit rounded-lg px-3 font-bold cursor-pointer text-white bg-primary"
-                    >
-                      NO SHOW
-                    </button>
+                    <div className="flex flex-wrap gap-2 items-center">
+                      <button
+                        type="button"
+                        onClick={() => handleAction(appt._id, "completed")}
+                        className="w-fit rounded-lg px-3 font-bold cursor-pointer text-white bg-primary"
+                      >
+                        COMPLETED
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleAction(appt._id, "noshow")}
+                        className="w-fit rounded-lg px-3 font-bold cursor-pointer text-white bg-red-500"
+                      >
+                        NO SHOW
+                      </button>
+                    </div>
                   )}
                 </div>
               ))}
@@ -304,20 +313,10 @@ function AllAppointments() {
     fetchAppointments();
   }, []);
 
-  const handleNoShow = async (id: string) => {
-    try {
-      await axios.patch(
-        `${BACKEND_DOMAIN}/api/v1/appointments/${id}/noshow`,
-        {},
-        { withCredentials: true },
-      );
-      fetchAppointments();
-    } catch (error) {
-      console.error("Failed to mark appointment as no-show", error);
-    }
-  };
-
-  const handleAction = async (id: string, action: "approve" | "decline") => {
+  const handleAction = async (
+    id: string,
+    action: "approve" | "decline" | "completed" | "noshow",
+  ) => {
     try {
       await axios.patch(
         `${BACKEND_DOMAIN}/api/v1/appointments/${id}/${action}`,
@@ -385,13 +384,22 @@ function AllAppointments() {
                   </p>
 
                   {appt.status === "Approved" && (
-                    <button
-                      onClick={() => handleNoShow(appt._id)}
-                      type="button"
-                      className="w-fit rounded-lg px-3 font-bold cursor-pointer text-white bg-primary"
-                    >
-                      NO SHOW
-                    </button>
+                    <div className="flex flex-wrap gap-2 items-center">
+                      <button
+                        type="button"
+                        onClick={() => handleAction(appt._id, "completed")}
+                        className="w-fit rounded-lg px-3 font-bold cursor-pointer text-white bg-primary"
+                      >
+                        COMPLETED
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleAction(appt._id, "noshow")}
+                        className="w-fit rounded-lg px-3 font-bold cursor-pointer text-white bg-red-500"
+                      >
+                        NO SHOW
+                      </button>
+                    </div>
                   )}
 
                   {appt.status === "Pending" && (
