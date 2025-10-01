@@ -148,7 +148,8 @@ function TodayAppointment() {
                     className={`font-bold ${
                       appt.status === "Pending"
                         ? "text-primary"
-                        : appt.status === "Approved"
+                        : appt.status === "Approved" ||
+                          appt.status === "Completed"
                         ? "text-green-400"
                         : "text-red-500"
                     }`}
@@ -375,7 +376,8 @@ function AllAppointments() {
                     className={`font-bold ${
                       appt.status === "Pending"
                         ? "text-primary"
-                        : appt.status === "Approved"
+                        : appt.status === "Approved" ||
+                          appt.status === "Completed"
                         ? "text-green-400"
                         : "text-red-500"
                     }`}
