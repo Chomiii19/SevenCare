@@ -46,7 +46,7 @@ export function PendingFilter({
   return (
     <div
       className={`flex absolute -top-18 z-50 transition-all duration-150 ease-in-out ${
-        activeFilter ? "-right-86" : "-right-10"
+        activeFilter ? "-right-10" : "-right-86"
       }`}
     >
       <button
@@ -132,7 +132,7 @@ export function AllFilter({
   return (
     <div
       className={`flex absolute -top-18 z-50 transition-all duration-150 ease-in-out ${
-        activeFilter ? "-right-86" : "-right-10"
+        activeFilter ? "-right-10" : "-right-86"
       }`}
     >
       <button
