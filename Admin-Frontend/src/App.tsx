@@ -11,6 +11,16 @@ import ViewAppointments from "./pages/app/viewAppointments";
 import { UserProvider } from "./context/userContext";
 import Profile from "./pages/app/profile";
 import DashboardPage from "./pages/app/dashboard";
+import Settings from "./pages/app/settings";
+import ManageAdmins from "./pages/settings/manageAdmins";
+import AddAdmin from "./pages/settings/addAdmin";
+import ManageServices from "./pages/settings/manageServices";
+import ManageDoctors from "./pages/settings/manageDoctors";
+import AddService from "./pages/settings/addService";
+import AddDoctor from "./pages/settings/addDoctor";
+import PolicyTermConditions from "./pages/settings/policyTermConditions";
+import ViewPatients from "./pages/app/viewPatients";
+import EditAdmin from "./pages/settings/editAdmin";
 
 export default function App() {
   return (
@@ -33,6 +43,21 @@ export default function App() {
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/appointments" element={<ViewAppointments />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/patients" element={<ViewPatients />} />
+
+          {/* Settings Pages */}
+          <Route path="/manage-admins" element={<ManageAdmins />} />
+          <Route path="/add-admin" element={<AddAdmin />} />
+          <Route path="/manage-services" element={<ManageServices />} />
+          <Route path="/add-service" element={<AddService />} />
+          <Route path="/manage-doctors" element={<ManageDoctors />} />
+          <Route path="/add-doctor" element={<AddDoctor />} />
+          <Route
+            path="/privacy-policy-and-terms-and-conditions"
+            element={<PolicyTermConditions />}
+          />
+          <Route path="/admins/:id/edit" element={<EditAdmin />} />
         </Routes>
       </UserProvider>
     </BrowserRouter>

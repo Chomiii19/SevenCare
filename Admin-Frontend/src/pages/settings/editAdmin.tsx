@@ -1,21 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header2 from "../../components/Header2";
 import Sidebar from "../../components/Sidebar";
 import { useUser } from "../../hooks/useUser";
 import CustomInput from "../../components/CustomInput";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { BACKEND_DOMAIN } from "../../data/data";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-export default function Profile() {
+export default function EditAdmin() {
   const { user } = useUser();
-
+  const { id } = useParams<{ id: string }>();
   const [firstname, setFirstname] = useState(user?.firstname || "");
   const [surname, setSurname] = useState(user?.surname || "");
   const [address, setAddress] = useState(user?.address || "");
   const [email, setEmail] = useState(user?.email || "");
   const [phoneNumber, setPhoneNumber] = useState(user?.phoneNumber || "");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
   interface UpdateUserPayload {
@@ -41,16 +42,47 @@ export default function Profile() {
 
       if (password.trim() !== "") updateData.password = password;
 
-      await axios.patch(`${BACKEND_DOMAIN}/api/v1/users/update`, updateData, {
+      await axios.patch(`${BACKEND_DOMAIN}/api/v1/users/${id}`, updateData, {
         withCredentials: true,
       });
 
-      alert("Profile updated successfully!");
+      alert("Account updated successfully!");
+      navigate(-1);
     } catch (error) {
-      console.error("Failed to update user profile", error);
-      alert("Failed to update profile.");
+      console.error("Failed to update user account", error);
+      alert("Failed to update account.");
     }
   };
+
+  useEffect(() => {
+    const fetchAdmins = async () => {
+      try {
+        const res = await axios.get(`${BACKEND_DOMAIN}/api/v1/users/${id}`, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        });
+        setFirstname(res.data.data.firstname);
+        setSurname(res.data.data.surname);
+        setAddress(res.data.data.address);
+        setEmail(res.data.data.email);
+        setPhoneNumber(res.data.data.phoneNumber);
+      } catch (e) {
+        if (axios.isAxiosError(e)) {
+          const err = e as AxiosError<{ message?: string }>;
+          setError(err.response?.data?.message ?? "Fetch failed.");
+        } else if (e instanceof Error) {
+          setError(e.message);
+        } else {
+          setError("An unexpected error occurred.");
+        }
+        console.log(error);
+      }
+    };
+
+    fetchAdmins();
+  }, [id]);
 
   return (
     <main className="flex flex-col w-full h-screen font-roboto pl-80 p-4 bg-bg-color text-zinc-900 overflow-hidden">

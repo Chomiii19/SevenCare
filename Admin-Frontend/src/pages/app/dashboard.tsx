@@ -27,7 +27,10 @@ export default function DashboardPage() {
     <main className="flex flex-col w-full h-screen font-roboto pl-76 bg-bg-color text-zinc-900">
       <Sidebar />
       <div className="h-full  w-full p-4 flex flex-col">
-        <Header2 />
+        <Header2
+          header="Dashboard"
+          description="Manage appointments and assist patients."
+        />
         <AppointmentSummary />
         <Dashboard />
       </div>
