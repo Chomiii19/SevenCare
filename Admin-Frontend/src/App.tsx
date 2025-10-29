@@ -21,6 +21,10 @@ import AddDoctor from "./pages/settings/addDoctor";
 import PolicyTermConditions from "./pages/settings/policyTermConditions";
 import ViewPatients from "./pages/app/viewPatients";
 import EditAdmin from "./pages/settings/editAdmin";
+import EditService from "./pages/settings/editService";
+import EditDoctor from "./pages/settings/editDoctor";
+import ViewAdmin from "./pages/settings/viewAdmin";
+import ViewUser from "./pages/app/viewUser";
 
 export default function App() {
   return (
@@ -58,6 +62,10 @@ export default function App() {
             element={<PolicyTermConditions />}
           />
           <Route path="/admins/:id/edit" element={<EditAdmin />} />
+          <Route path="/services/:id/edit" element={<EditService />} />
+          <Route path="/doctors/:id/edit" element={<EditDoctor />} />
+          <Route path="/admins/:id" element={<ViewAdmin />} />
+          <Route path="/users/:id" element={<ViewUser />} />
         </Routes>
       </UserProvider>
     </BrowserRouter>

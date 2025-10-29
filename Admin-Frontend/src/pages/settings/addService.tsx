@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import Header2 from "../../components/Header2";
 import Sidebar from "../../components/Sidebar";
 import Select, { type SingleValue } from "react-select";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { BACKEND_DOMAIN } from "../../data/data";
 
 const statusOption = [
   { value: "Available", label: "Available" },
@@ -18,8 +20,38 @@ function AddService() {
   const [name, setName] = useState("");
   const [price, setPrice] = useState(0);
   const [status, setStatus] = useState<SingleValue<OptionType>>(null);
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
+
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const res = await axios.post(
+        `${BACKEND_DOMAIN}/api/v1/services/add`,
+        {
+          name,
+          price,
+          status: status?.value,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        },
+      );
+
+      console.log("✅ Service created:", res.data);
+      navigate(-1);
+    } catch (err) {
+      console.error("❌ Error creating service:", err);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <main className="flex flex-col w-full h-screen font-roboto pl-80 p-4 bg-bg-color text-zinc-900 overflow-hidden">
@@ -29,7 +61,10 @@ function AddService() {
       />
       <Sidebar />
       <div className="h-full w-full p-5 pb-0 flex-1 min-h-0 flex flex-col">
-        <form className="h-full w-full p-5 flex flex-col justify-center items-center">
+        <form
+          onSubmit={handleSubmit}
+          className="h-full w-full p-5 flex flex-col justify-center items-center"
+        >
           <section className="w-[50%] h-auto flex mt-3 gap-7 flex-col bg-[#E9F5FF] rounded-lg p-10">
             <div className="flex items-center">
               <b className="w-48">Name:</b>
@@ -78,9 +113,13 @@ function AddService() {
             </button>
             <button
               type="submit"
-              className="bg-[#458FF6] rounded-lg px-5 py-1 font-bold text-white cursor-pointer"
+              className="bg-[#458FF6] rounded-lg px-5 py-1 font-bold text-white cursor-pointer flex justify-center w-40"
             >
-              Create Service
+              {loading ? (
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              ) : (
+                "Create Service"
+              )}
             </button>
           </div>
         </form>

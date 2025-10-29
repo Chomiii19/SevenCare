@@ -116,17 +116,17 @@ function ManageAdmins() {
                     day: "numeric",
                     hour: "numeric",
                     minute: "2-digit",
-                    second: "2-digit",
                     hour12: true,
                   })}
                 </p>
                 <div className="flex items-center gap-2">
-                  <button
+                  <Link
+                    to={`/admins/${admin._id}`}
                     title="View Account"
                     className="cursor-pointer text-primary"
                   >
                     <Eye />
-                  </button>
+                  </Link>
                   <Link
                     to={`/admins/${admin._id}/edit`}
                     title="Edit account"

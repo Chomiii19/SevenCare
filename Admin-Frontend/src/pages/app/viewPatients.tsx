@@ -4,6 +4,7 @@ import Sidebar from "../../components/Sidebar";
 import axios, { AxiosError } from "axios";
 import { useState, useEffect } from "react";
 import { BACKEND_DOMAIN } from "../../data/data";
+import { Link } from "react-router-dom";
 
 interface Patient {
   _id: string;
@@ -80,12 +81,13 @@ function ViewPatients() {
                   })}
                 </p>
                 <div className="flex items-center gap-2">
-                  <button
+                  <Link
+                    to={`/users/${patient._id}`}
                     title="View patient"
                     className="cursor-pointer text-primary"
                   >
                     <Eye />
-                  </button>
+                  </Link>
                 </div>
               </div>
             ))

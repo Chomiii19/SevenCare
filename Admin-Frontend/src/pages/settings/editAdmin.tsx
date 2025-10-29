@@ -1,22 +1,21 @@
 import { useEffect, useState } from "react";
 import Header2 from "../../components/Header2";
 import Sidebar from "../../components/Sidebar";
-import { useUser } from "../../hooks/useUser";
 import CustomInput from "../../components/CustomInput";
 import axios, { AxiosError } from "axios";
 import { BACKEND_DOMAIN } from "../../data/data";
 import { useNavigate, useParams } from "react-router-dom";
 
 export default function EditAdmin() {
-  const { user } = useUser();
   const { id } = useParams<{ id: string }>();
-  const [firstname, setFirstname] = useState(user?.firstname || "");
-  const [surname, setSurname] = useState(user?.surname || "");
-  const [address, setAddress] = useState(user?.address || "");
-  const [email, setEmail] = useState(user?.email || "");
-  const [phoneNumber, setPhoneNumber] = useState(user?.phoneNumber || "");
+  const [firstname, setFirstname] = useState("");
+  const [surname, setSurname] = useState("");
+  const [address, setAddress] = useState("");
+  const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [name, setName] = useState("");
   const navigate = useNavigate();
 
   interface UpdateUserPayload {
@@ -55,7 +54,7 @@ export default function EditAdmin() {
   };
 
   useEffect(() => {
-    const fetchAdmins = async () => {
+    const fetchAdmin = async () => {
       try {
         const res = await axios.get(`${BACKEND_DOMAIN}/api/v1/users/${id}`, {
           headers: {
@@ -68,6 +67,7 @@ export default function EditAdmin() {
         setAddress(res.data.data.address);
         setEmail(res.data.data.email);
         setPhoneNumber(res.data.data.phoneNumber);
+        setName(`${res.data.data.firstname} ${res.data.data.surname}`);
       } catch (e) {
         if (axios.isAxiosError(e)) {
           const err = e as AxiosError<{ message?: string }>;
@@ -81,19 +81,22 @@ export default function EditAdmin() {
       }
     };
 
-    fetchAdmins();
+    fetchAdmin();
   }, [id]);
 
   return (
     <main className="flex flex-col w-full h-screen font-roboto pl-80 p-4 bg-bg-color text-zinc-900 overflow-hidden">
-      <Header2 header="Profile" description="Manage your account details." />
+      <Header2
+        header="Admin Profile"
+        description="Edit admin account details."
+      />
       <Sidebar />
       <form
         onSubmit={handleUpdateUser}
         className="h-full w-full p-5 flex flex-col justify-center items-center"
       >
         <header className="w-[50%] ">
-          <h1 className="text-2xl font-bold">My Profile</h1>
+          <h1 className="text-2xl font-bold">{name}'s Profile</h1>
         </header>
 
         <section className="w-[50%] h-auto flex mt-3 gap-7 flex-col bg-[#E9F5FF] rounded-lg p-10">
